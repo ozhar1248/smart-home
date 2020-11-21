@@ -3,25 +3,29 @@
 
 #include <string>
 
+using namespace std;
+
 namespace smartH
 {
 
 	class Location
 	{
-		std::string m_building; 
-		std::string m_floor;
-		std::string m_room;
+		string m_building; 
+		string m_floor;
+		string m_room;
 	public:
-		const static std::string m_all; //means all buildings, all floors or all rooms
+		const static string m_all; //means all buildings, all floors or all rooms
 	public:
 		Location() = default;
-		void setBuilding(const std::string& _building);
-		void setFloor(const std::string& _floor);
-		void setRoom(const std::string& _room);
-		const std::string& getBuilding() const;
-		const std::string& getFloor() const;
-		const std::string& getRoom() const;
+		Location(const string& _building, const string& _floor, const string& _room);
+		void setBuilding(const string& _building);
+		void setFloor(const string& _floor);
+		void setRoom(const string& _room);
+		const string& getBuilding() const;
+		const string& getFloor() const;
+		const string& getRoom() const;
+		bool operator==(const Location& _location) const;
 	};
 
-} //smart
+} //smartH
 #endif //_LOCATION_H_

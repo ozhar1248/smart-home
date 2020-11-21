@@ -2,20 +2,27 @@
 #define _SUBSCRIPTIONS_H_
 
 #include "location.hpp"
-#include "agentInerface.hpp"
+#include "subscriptionInterface.hpp"
 #include <map>
 #include <memory>
 #include <vector>
 
+using namespace std;
+
 namespace smartH
 {
 
-	class Subscriptions
+	class Subscriptions : public ISubscription
 	{
-		std::map<std::shared_ptr<const IAgent>, std::vector<std::shared_ptr<const Location>>> m_subMap;
+		map<shared_ptr<IAgent>, vector<shared_ptr<Location>>> m_subMap;
+	public:
+		typedef map<shared_ptr<IAgent>, vector<shared_ptr<Location>>>::const_iterator itrMap;
+		typedef vector<shared_ptr<Location>> vecLocations;
+		typedef vector<shared_ptr<Location>>::iterator vecLocationsItr;
 	public:
 		Subscriptions() = default;
-		void subscribe(const std::shared_ptr<const IAgent>& _agent, const std::shared_ptr<const Location>& _location);
+		void subscribe(const shared_ptr<IAgent>& _agent, const shared_ptr<Location>& _location);
+		void getAgentsRegistered(const shared_ptr<const Event>& event, vector<shared_ptr<IAgent>>& _vector) const;
 	}; //Subscriptions
 
 } //smartH

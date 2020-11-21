@@ -6,6 +6,8 @@
 #include <mutex>
 #include <condition_variable>
 
+using namespace std;
+
 namespace ds
 {
 
@@ -15,17 +17,17 @@ namespace ds
     public:
         QueueTS();
         ~QueueTS() = default;
-        int enqueue(const std::shared_ptr<const T>& _ptrT);
-        int dequeue(std::shared_ptr<const T>& _ptrT);
+        int enqueue(const shared_ptr<const T>& _ptrT);
+        int dequeue(shared_ptr<const T>& _ptrT);
         void stop();
         int size();
     private:
         QueueTS(const QueueTS& _queue);
         QueueTS& operator=(const QueueTS& _queue) {};
 
-        std::queue<std::shared_ptr<const T>> m_mainQueue;
-        std::mutex m_mutex;
-        std::condition_variable m_cv;
+        queue<shared_ptr<const T>> m_mainQueue;
+        mutex m_mutex;
+        condition_variable m_cv;
         bool m_power;
     }; //QueueTS
 
@@ -38,7 +40,7 @@ namespace ds
     }
 
     template <typename T>
-    int QueueTS<T>::enqueue(const std::shared_ptr<const T>& _ptrT)
+    int QueueTS<T>::enqueue(const shared_ptr<const T>& _ptrT)
     {
         m_mutex.lock();
 
@@ -54,9 +56,9 @@ namespace ds
     }
 
     template <typename T>
-    int QueueTS<T>::dequeue(std::shared_ptr<const T>& _ptrT)
+    int QueueTS<T>::dequeue(shared_ptr<const T>& _ptrT)
     {
-        std::unique_lock<std::mutex> locker(m_mutex);
+        unique_lock<mutex> locker(m_mutex);
         while (m_mainQueue.empty())
         {
             m_cv.wait(locker);

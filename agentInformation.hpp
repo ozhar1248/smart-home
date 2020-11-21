@@ -4,24 +4,27 @@
 #include <string>
 #include "location.hpp"
 
+using namespace std;
+
 namespace smartH
 {
 
 	class AgentInformation
 	{
-		std::string m_id;
-		std::string m_configuration;
+		string m_id;
+		string m_configuration;
 		Location m_location;
-		std::string m_log;
+		string m_log;
 	public:
 		AgentInformation() = default;
-		void setID(const std::string& _id);
-		void setConfiguration(const std::string& _config);
+		AgentInformation(const string& _id, const string& _config, const Location& _location);
+		void setID(const string& _id);
+		void setConfiguration(const string& _config);
 		void setLocation(const Location& _location);
-		void addLog(const std::string& _comment);
-		void printLog(); //TODO - parameter file
-		const std::string& getID() const;
-		const std::string& getConfiguration() const;
+		void addLog(const string& _comment);
+		//void printLog(); TODO - parameter file
+		const string& getID() const;
+		const string& getConfiguration() const;
 		const Location& getLocation() const;
 	};
 

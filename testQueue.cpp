@@ -7,6 +7,7 @@
 #include <vector>
 
 using namespace ds;
+using namespace std;
 
 struct Int
 {
@@ -16,13 +17,13 @@ struct Int
 
 struct AtomicInt
 {
-	std::mutex mu;
+	mutex mu;
 	int n;
 	AtomicInt(int _n) : n(_n) {};
 	void Increase(QueueTS<Int>& qu)
 	{
 		mu.lock();
-		qu.enqueue(std::shared_ptr<Int>(new Int(n)));
+		qu.enqueue(shared_ptr<Int>(new Int(n)));
 		++n;
 		mu.unlock();
 	}
@@ -39,7 +40,7 @@ void enqueue(QueueTS<Int>& qu, AtomicInt& atom)
 
 void dequeue(QueueTS<Int>& qu)
 {
-	std::shared_ptr<const Int> ptrN;
+	shared_ptr<const Int> ptrN;
 	int curr, prev;
 	prev = -1;
 
@@ -52,25 +53,25 @@ void dequeue(QueueTS<Int>& qu)
 		curr = ptrN->n;
 		if (curr <= prev )
 		{
-			std::cout << "fail" << std::endl;
+			cout << "fail" << endl;
 			return;
 		}
 		prev = curr;
 	}
-	std::cout << "pass" << std::endl;
+	cout << "pass" << endl;
 }
 
 int main()
 {
 	QueueTS<Int> testQueue;
 	AtomicInt atom(0);
-	std::vector<std::thread> vec;
+	vector<thread> vec;
 
 	for (int i = 0; i < 20; ++i)
 	{
-		vec.push_back(std::thread(enqueue, std::ref(testQueue), std::ref(atom)));
+		vec.push_back(thread(enqueue, ref(testQueue), ref(atom)));
 	}
-	std::thread deqThread(dequeue, std::ref(testQueue));
+	thread deqThread(dequeue, ref(testQueue));
 
 	Sleep(200);
 

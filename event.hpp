@@ -3,20 +3,29 @@
 
 #include "location.hpp"
 #include <string>
+#include <iostream>
+
+using namespace std;
 
 namespace smartH
 {
 
 	class Event
 	{
-		std::string m_payload;
+		string m_payload;
 		Location m_location;
-		std::string m_type;
+		string m_type;
 		//Timestamp m_time;
 	public:
 		//TODO default constructors, getters setters
-		Event(const std::string& _payload, const std::string& _type, const Location& _location);
+		Event(const string& _payload, const string& _type, const Location& _location);
+		const Location& getLocation() const;
+		const string& getPayload() const;
+		const string& getType() const;
 	}; //Event
+
+	void operator<<(ostream& out, const Event event);
+
 } //smartH
 
 #endif // !_EVENT_H_
