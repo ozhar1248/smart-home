@@ -19,9 +19,12 @@ namespace smartH
 	public:
 		//TODO default constructors, getters setters
 		Event(const string& _payload, const string& _type, const Location& _location);
+		Event(const string& _payload, const string& _type);
 		const Location& getLocation() const;
 		const string& getPayload() const;
 		const string& getType() const;
+		void setLocation(const Location& _location);
+		operator string() const;
 	}; //Event
 
 	void operator<<(ostream& out, const Event event);

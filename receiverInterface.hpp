@@ -11,7 +11,8 @@ namespace smartH
 	class IReceiver
 	{
 	public:
-		virtual void receiveEvent(const shared_ptr<const Event>& _event) = 0;
+		virtual void SendEvent(shared_ptr<Event> _event) = 0;
+		virtual void stop() = 0;
 	};
 
 } //smartH

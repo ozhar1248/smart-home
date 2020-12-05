@@ -22,6 +22,7 @@ namespace smartH
 		void setConfiguration(const string& _config);
 		void setLocation(const Location& _location);
 		void addLog(const string& _comment);
+		string getLog() const;
 		//void printLog(); TODO - parameter file
 		const string& getID() const;
 		const string& getConfiguration() const;

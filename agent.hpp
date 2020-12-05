@@ -17,12 +17,15 @@ namespace smartH
 	{
 		AgentInformation m_info;
 		enum Type m_type;
+		shared_ptr<IReceiver> m_receiver;
 	public:
 		Agent(enum Type _type, const string& _id, const string& _config, const Location& _location);
 		int getType() const;
 		const AgentInformation& getInfo() const;
 		void publish(const shared_ptr<const Event>& _event);
-		void startReceivingEvents(shared_ptr<IReceiver> _receiver);
+		void start(shared_ptr<IReceiver> _receiver);
+		void sendEvent(shared_ptr<Event> _event);
+		void printLog() const;
 	};
 
 } //smartH

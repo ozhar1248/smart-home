@@ -1,7 +1,6 @@
 #ifndef _QUEUETS_
 #define _QUEUETS_
 
-#include <memory>
 #include <queue>
 #include <mutex>
 #include <condition_variable>
@@ -11,21 +10,20 @@ using namespace std;
 namespace ds
 {
 
+    // T needs to be with an assignment operator
     template <typename T>
     class QueueTS
     {
     public:
         QueueTS();
         ~QueueTS() = default;
-        int enqueue(const shared_ptr<const T>& _ptrT);
-        int dequeue(shared_ptr<const T>& _ptrT);
+        int enqueue(const T& _t);
+        int dequeue(T& _ptrT);
         void stop();
         int size();
     private:
-        QueueTS(const QueueTS& _queue);
-        QueueTS& operator=(const QueueTS& _queue) {};
 
-        queue<shared_ptr<const T>> m_mainQueue;
+        queue<T> m_mainQueue;
         mutex m_mutex;
         condition_variable m_cv;
         bool m_power;
@@ -40,7 +38,7 @@ namespace ds
     }
 
     template <typename T>
-    int QueueTS<T>::enqueue(const shared_ptr<const T>& _ptrT)
+    int QueueTS<T>::enqueue(const T& _t)
     {
         m_mutex.lock();
 
@@ -48,7 +46,7 @@ namespace ds
         {
             return 1;
         }
-        m_mainQueue.push(_ptrT);
+        m_mainQueue.push(_t);
         m_cv.notify_one();
 
         m_mutex.unlock();
@@ -56,7 +54,7 @@ namespace ds
     }
 
     template <typename T>
-    int QueueTS<T>::dequeue(shared_ptr<const T>& _ptrT)
+    int QueueTS<T>::dequeue(T& _ptrT)
     {
         unique_lock<mutex> locker(m_mutex);
         while (m_mainQueue.empty())

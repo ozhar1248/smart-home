@@ -19,7 +19,9 @@ namespace smartH
 		virtual int getType() const = 0;
 		virtual const AgentInformation& getInfo() const =0;
 		virtual void publish(const shared_ptr<const Event>& _event) = 0;
-		virtual void startReceivingEvents(shared_ptr<IReceiver> _receiver) = 0;
+		virtual void start(shared_ptr<IReceiver> _receiver) = 0;
+		virtual void sendEvent(shared_ptr<Event> _event) = 0;
+		virtual void printLog() const = 0;
 	}; //IAgent
 } //smartH
 #endif //_IAGENT_H

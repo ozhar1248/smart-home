@@ -23,10 +23,25 @@ const AgentInformation& Agent::getInfo() const
 
 void Agent::publish(const shared_ptr<const Event>& _event)
 {
-	cout << *_event;
+	m_info.addLog("Event received at agent id " + m_info.getID() + " ->> ");
+	m_info.addLog(*_event);
 }
 
-void Agent::startReceivingEvents(shared_ptr<IReceiver> _receiver)
+void smartH::Agent::start(shared_ptr<IReceiver> _receiver)
 {
-	_receiver->receiveEvent(shared_ptr<Event>(new Event("payload", "type", Location(m_info.getLocation().getBuilding(), m_info.getLocation().getFloor(), m_info.getLocation().getRoom()))));
+	m_receiver = _receiver;
 }
+
+void smartH::Agent::sendEvent(shared_ptr<Event> _event)
+{
+	// check if its not null
+	_event->setLocation(m_info.getLocation());
+	m_receiver->SendEvent(_event);
+}
+
+void smartH::Agent::printLog() const
+{
+	cout << m_info.getLog() << endl;
+}
+
+

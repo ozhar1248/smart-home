@@ -30,6 +30,11 @@ void AgentInformation::addLog(const string& _comment)
 	m_log += _comment;
 }
 
+string smartH::AgentInformation::getLog() const
+{
+	return m_log;
+}
+
 const string& AgentInformation::getID() const
 {
 	return m_id;
