@@ -7,15 +7,15 @@ namespace smartH
 {
 	Event::Event(const string& _payload, const string& _type, const Location& _location)
 		:m_payload(_payload)
-		, m_type(_type)
-		, m_location(_location)
+		,m_location(_location)
+		,m_type(_type)
 	{
 	}
 
 	Event::Event(const string& _payload, const string& _type)
 		:m_payload(_payload)
-		, m_type(_type)
 		, m_location()
+		, m_type(_type)
 	{
 	}
 

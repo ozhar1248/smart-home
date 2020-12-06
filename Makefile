@@ -35,5 +35,8 @@ depends:
 .PHONY: clean
 clean:
 	rm -f $(TARGET) $(OBJECTS) depends core *.o *.log 
+
+run:  $(TARGET)
+	 ./$(TARGET)
 	  
 	
