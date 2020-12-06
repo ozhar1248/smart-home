@@ -4,6 +4,8 @@
 #include <queue>
 #include <mutex>
 #include <condition_variable>
+#include "uncopyable.hpp"
+
 
 using namespace std;
 
@@ -12,7 +14,7 @@ namespace ds
 
     // T needs to be with an assignment operator
     template <typename T>
-    class QueueTS
+    class QueueTS : public Uncopyable
     {
     public:
         QueueTS();

@@ -2,6 +2,8 @@
 #include "subscriptionInterface.hpp"
 #include "subscriptions.hpp"
 #include "agentsManagement.hpp"
+#include <chrono>
+#include <thread>
 
 using namespace std;
 using namespace smartH;
@@ -26,6 +28,8 @@ Server::Server()
 	subs->subscribe(vecAgents[5], shared_ptr<Location>(new Location(Location::m_all, Location::m_all, "3")));
 	subs->subscribe(vecAgents[6], shared_ptr<Location>(new Location(Location::m_all, Location::m_all, "1")));
 	subs->subscribe(vecAgents[6], shared_ptr<Location>(new Location(Location::m_all, Location::m_all, "2")));
-	AgentManagement(vecAgents, subs);
+	AgentManagement manager(vecAgents, subs);
+
+	std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 	
 }

@@ -1,8 +1,6 @@
 #include "agentsManagement.hpp"
 #include "subQueueManager.hpp"
 #include "queueManager.hpp"
-#include <chrono>
-#include <thread>
 
 using namespace smartH;
 
@@ -10,14 +8,14 @@ using namespace smartH;
 const int NUM_OF_THREADS = 4;
 
 AgentManagement::AgentManagement(const vector<shared_ptr<IAgent>>& _agentVec, const shared_ptr<const ISubscription> _subscriptions)
+	:m_agentVec(_agentVec)
+	,m_secondRec(new SubQueueManager(_agentVec, _subscriptions, NUM_OF_THREADS))
+	,m_firstRec(new QueueManager(m_secondRec))
 {
-	shared_ptr<IReceiver> subQueues(new SubQueueManager(_agentVec, _subscriptions, NUM_OF_THREADS));
-	shared_ptr<IReceiver> mainQueue(new QueueManager(subQueues));
-
 	int sizeAgents = _agentVec.size();
 	for (int i = 0; i < sizeAgents; ++i)
 	{
-		_agentVec[i]->start(mainQueue);
+		_agentVec[i]->start(m_firstRec);
 	}
 
 	_agentVec[0]->sendEvent(shared_ptr<Event>(new Event("payload1", "type")));
@@ -27,12 +25,16 @@ AgentManagement::AgentManagement(const vector<shared_ptr<IAgent>>& _agentVec, co
 	_agentVec[4]->sendEvent(shared_ptr<Event>(new Event("payload5", "type")));
 	_agentVec[7]->sendEvent(shared_ptr<Event>(new Event("payload6", "type")));
 
-	std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-	subQueues->stop();
-	mainQueue->stop();
+}
 
+smartH::AgentManagement::~AgentManagement()
+{
+	m_secondRec->stop();
+	m_firstRec->stop();
+
+	int sizeAgents = m_agentVec.size();
 	for (int i = 0; i < sizeAgents; ++i)
 	{
-		_agentVec[i]->printLog();
+		m_agentVec[i]->printLog();
 	}
 }
